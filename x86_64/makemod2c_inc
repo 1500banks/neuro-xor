@@ -1,0 +1,48 @@
+./Traub.c: ../GidonEtAl/_mod/Traub.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "Traub.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./Traub.o: ./Traub.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
+./dCaAP.c: ../GidonEtAl/_mod/dCaAP.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "dCaAP.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./dCaAP.o: ./dCaAP.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
+./myAMPA.c: ../GidonEtAl/_mod/myAMPA.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "myAMPA.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./myAMPA.o: ./myAMPA.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
+./myGABA.c: ../GidonEtAl/_mod/myGABA.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "myGABA.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./myGABA.o: ./myGABA.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
+./myNMDA.c: ../GidonEtAl/_mod/myNMDA.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "myNMDA.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./myNMDA.o: ./myNMDA.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
+./mySyn.c: ../GidonEtAl/_mod/mySyn.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../GidonEtAl/_mod";  MODLUNIT=$(NRNUNITS) $(NOCMODL) "mySyn.mod" -o "/Users/ethanbanks/Documents/GitHub/neuro-xor/x86_64")
+
+./mySyn.o: ./mySyn.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../GidonEtAl/_mod" $(INCLUDES) -fPIC -c $< -o $@
+
