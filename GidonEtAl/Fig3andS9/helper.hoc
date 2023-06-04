@@ -15,15 +15,6 @@ load_file("./plots.hoc")
 
 //globals
 objref apc
-proc conclude(){local x
-	plot_shape()
-	finitialize()
-	for pl_dcaap.point(0,&x) print "Rin = ", Rin = get_Rin(dcaap_loc) //only one dcaap point.
-	soma distance()
-	print "dCaAP is located at ", distance(dcaap_loc)," um from the soma"
-	printf("somatic AP rate: %f Hz",apc.n / (tstop - delay))	
-
-}
 
 //set parameters for the dcaap. 
 proc add_dcaap(){local dcaap_loc,dcaap_w
@@ -44,12 +35,16 @@ proc add_dcaap(){local dcaap_loc,dcaap_w
 
 proc set_pathways_combination(){local pathwayX,pathwayY,subdomain_inhibition,distal_inhibition,proximal_inhibition,background_excitation
 	initialize_pathways()//initialize
-	dur=30000
+	
+    // vars below adjusted manually for plotting
+
+    dur=30000
 	delay=100
-	syn_freq_Hz=20
+	syn_freq_Hz=18
 	if(bg=1)add_syns(plex_bg,syns,tplay,syn_freq_Hz,delay,dur,ampa=1,nmda=0,basket=0,martinotti=0)
 	if(pathwayX=$1)add_syns(plex_X,syns,tplay,syn_freq_Hz,delay,dur,ampa=1,nmda=1,basket=0,martinotti=0)
-	if(pathwayY=$2)add_syns(plex_Y,syns,tplay,syn_freq_Hz,delay,dur,ampa=1,nmda=1,basket=0,martinotti=0)
+	delay=2000
+    if(pathwayY=$2)add_syns(plex_Y,syns,tplay,syn_freq_Hz,delay,dur,ampa=1,nmda=1,basket=0,martinotti=0)
 	if(subdomain_inhibition=$3)add_syns(plin_subdomain,syns,tplay,syn_freq_Hz,delay,dur,ampa=0,nmda=0,basket=0,martinotti=1)
 	if(distal_inhibition=$4)add_syns(plin_martinotti,syns,tplay,syn_freq_Hz,delay,dur,ampa=0,nmda=0,basket=0,martinotti=1)
 	if(proximal_inhibition=$5)add_syns(plin_basket,syns,tplay,syn_freq_Hz,delay,dur,ampa=0,nmda=0,basket=1,martinotti=0)
@@ -76,48 +71,12 @@ proc activate_pathways(){localobj pathway
 	if(pathway.equal("X+proximal.inhib")) set_pathways_combination(1,0,0,0,1,5)	
 }
 
-
-proc test_pulse_uncoupled(){local dcaap_loc,dcaap_w localobj ic
-	apic[76] {
-		init_sim(dcaap_loc = 0.214,dcaap_w = 1.6)	
-		ic = new IClamp(dcaap_loc)
-		ic.dur = 1000
-		ic.del = 200
-		tstop = 1400
-		init_plots(dcaap_loc)
-		graphItem.family(1)
-		for (ic.amp=0.18;ic.amp <= 0.30;ic.amp += 0.01){ 	
-			print "current injection = ", ic.amp*1000 , " pA"
-			run()
-		}
-	}
-}
-
-proc test_pulse_coupled(){local dcaap_loc,dcaap_w localobj ic
-	apic[60] {
-		init_sim(dcaap_loc = 0.99,dcaap_w = 4)	
-		ic = new IClamp(dcaap_loc)
-		ic.dur = 1000
-		ic.del = 200
-		tstop = 1400
-		init_plots(dcaap_loc)
-		graphItem.family(1)
-		for (ic.amp=0.48;ic.amp <= 0.60;ic.amp += 0.02){ 	
-			print "current injection = ", ic.amp*1000 , " pA"
-			run()
-		}
-	}
-}
-
 proc uncoupled(){
 	apic[76]{
 		tstop = 4000
 		init_points(syns_bg=100,syns_group1=25,syns_group2=25,syns_inh_distal=20,syns_inh_proximal=35)
 		init_sim(dcaap_loc = 0.214,dcaap_w = 1.6)	
 		activate_pathways($s1,is_coupled = 0)
-		init_plots(dcaap_loc)
-		run()
-		conclude()
 	}
 }
  
@@ -128,9 +87,6 @@ proc coupled(){
 		init_points(syns_bg = 100,syns_group1 = 35,syns_group2 = 35,syns_inh_distal = 35,syns_inh_proximal = 35)
 		 init_sim(dcaap_loc = 0.99,dcaap_w = 4)
 		apic[60] activate_pathways($s1,is_coupled = 1)
-		init_plots(dcaap_loc)	
-		run()
-		conclude()
 	}
 }
 
